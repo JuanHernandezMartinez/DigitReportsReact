@@ -1,8 +1,21 @@
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import "./Login.css";
 
-function Login() {
+
+const Login: React.FC = () => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+
+    navigate('/Home');
+  };
+
   return (
-    <div>Login</div>
-  )
-}
+    <div>
+      <button onClick={handleClick}>Ir a otra sección</button>
+    </div>
+  );
+};
 
-export default Login
+export default Login;

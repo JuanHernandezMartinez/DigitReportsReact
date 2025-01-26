@@ -1,0 +1,21 @@
+@import "tailwindcss";
+body {
+  @apply bg-gray-400 text-gray-800 antialiased;
+}
+
+table {
+  @apply w-full border-collapse border border-gray-300 text-sm;
+}
+
+table th,
+table td {
+  @apply border border-gray-300 p-2 text-center;
+}
+
+table th {
+  @apply font-bold bg-gray-200;
+}
+
+.card-header {
+  @apply text-lg font-semibold mb-2;
+}

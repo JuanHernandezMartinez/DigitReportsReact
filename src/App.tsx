@@ -5,6 +5,7 @@ import Login from './UI/Login/Login'
 import Clientes from './UI/Clientes/Clientes'
 import Bancos from './UI/Bancos/Bancos'
 import VentasComponent from './UI/Ventas/VentasComponent'
+import Tablas from './UI/Tablas/Tablas'
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       <Route path="/ventas" element={<VentasComponent />} />
       <Route path="/clientes" element={<Clientes />} />
       <Route path="/bancos" element={<Bancos />} />
+      <Route path="/Tablas" element={<Tablas />} />
 
     </Routes>
   </BrowserRouter>
