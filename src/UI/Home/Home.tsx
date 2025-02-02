@@ -53,8 +53,7 @@ const Home: React.FC = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-500 to-purple-600">
-      {/* Navbar */}
+    <div className="min-h-screen bg-gradient-to-br from-blue-700 to-emerald-800">
       <nav className="bg-white/10 backdrop-blur-sm border-b border-white/30 p-4 fixed w-full top-0 z-10">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <div className="w-32 h-8 bg-white/20 rounded-lg animate-pulse"><img src={logo} alt="Digitreports" /></div>

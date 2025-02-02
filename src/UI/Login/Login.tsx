@@ -9,10 +9,10 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-700 to-emerald-800 flex items-center justify-center p-4">
       <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 shadow-xl w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-white mb-2">Bienvenido A Digireports</h1>
+          <h1 className="text-4xl font-bold text-white mb-2">Bienvenido A DigitReports</h1>
           <p className="text-white/80">Por Favor De Iniciar Sesión</p>
         </div>
 
