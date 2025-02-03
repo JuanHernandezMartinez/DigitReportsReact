@@ -30,7 +30,35 @@ function Ventas() {
     useEffect(()=>{
 
         async function buscar(){
-            const response:VentasArticulo[] = await ventasService.obtenerVentasArticulosPorFechas("2024-10-02", "2024-10-02");
+           // var response:VentasArticulo[] = await ventasService.obtenerVentasArticulosPorFechas("2024-10-02", "2024-10-02");
+
+            var response = [
+                {
+                  "id": 11856,
+                  "nombre": "DIESEL",
+                  "unidades": 138968,
+                  "total": 3448104.23
+                },
+                {
+                  "id": 11857,
+                  "nombre": "MAGNA",
+                  "unidades": 180336,
+                  "total": 4240608.34
+                },
+                {
+                  "id": 11858,
+                  "nombre": "PEMEX PREMIUM",
+                  "unidades": 25260,
+                  "total": 639078.04
+                },
+                {
+                  "id": 0,
+                  "nombre": "ACEITES Y LUBRICANTES",
+                  "unidades": 422,
+                  "total": 99254.2
+                }
+              ]
+
             setSales(response);
         }
 
