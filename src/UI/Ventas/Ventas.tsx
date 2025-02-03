@@ -4,14 +4,18 @@ import { Button } from "../UIComponents/button";
 import { Input } from "../UIComponents/input";
 import { useNavigate } from "react-router-dom";
 import logo from '../../assets/165 x 645.png';
+import { VentasService } from "../../Services/VentasService";
+import { VentasArticulo } from "../../Models/VentasArticulos";
 
 function Ventas() {
     const navigate = useNavigate();
     const [date, setDate] = useState("Fecha");
-    const [sales, setSales] = useState([]);
+    const [sales, setSales] = useState<VentasArticulo[]>([]);
     const [clients, setClients] = useState([]);
     const [banks, setBanks] = useState([]);
     const [currentTime, setCurrentTime] = useState(new Date().toLocaleString());
+
+    const ventasService = new VentasService();
     
     const handleBack = () => {
         navigate(-1); // pag anterior
@@ -22,6 +26,16 @@ function Ventas() {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
         </svg>
     );
+
+    useEffect(()=>{
+
+        async function buscar(){
+            const response:VentasArticulo[] = await ventasService.obtenerVentasArticulosPorFechas("2024-10-02", "2024-10-02");
+            setSales(response);
+        }
+
+        buscar();
+    },[])
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-blue-700 to-emerald-800 p-4 space-y-4">
@@ -69,7 +83,7 @@ function Ventas() {
 
             {/* Tabla Ventas */}
             <Card className="bg-white backdrop-blur-sm border border-gray-200 rounded-xl shadow-lg">
-                <CardContent className="p-6">
+                <CardContent>
                     <h2 className="text-2xl font-bold text-gray-800 mb-6">Registro de Ventas</h2>
                     <div className="overflow-x-auto rounded-lg border border-gray-200">
                         <table className="w-full min-w-[600px]">
@@ -89,8 +103,8 @@ function Ventas() {
                             <tbody className="divide-y divide-gray-200">
                                 {sales.map((sale, index) => (
                                     <tr key={index} className="hover:bg-indigo-50 transition-colors even:bg-gray-50">
-                                        <td className="px-4 py-3 text-gray-900 font-medium">{sale.article}</td>
-                                        <td className="px-4 py-3 text-right text-gray-900">{sale.units}</td>
+                                        <td className="px-4 py-3 text-gray-900 font-medium">{sale.nombre}</td>
+                                        <td className="px-4 py-3 text-right text-gray-900">{sale.unidades}</td>
                                         <td className="px-4 py-3 text-right font-semibold text-blue-800">
                                             ${sale.total.toFixed(2)}
                                         </td>
@@ -101,26 +115,52 @@ function Ventas() {
                                 <tr className="bg-blue-100 font-bold">
                                     <td className="px-4 py-3 text-blue-900 border-t border-gray-200">Totales</td>
                                     <td className="px-4 py-3 text-right text-blue-900 border-t border-gray-200">
-                                        {sales.reduce((acc, sale) => acc + sale.units, 0)}
+                                        {sales.reduce((acc, sale) => acc + sale.unidades, 0)}
                                     </td>
                                     <td className="px-4 py-3 text-right text-blue-900 border-t border-gray-200">
                                         ${sales.reduce((acc, sale) => acc + sale.total, 0).toFixed(2)}
                                     </td>
                                 </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </CardContent>
+            </Card>
+
+            <div>
+               
+                   <div style={{position:"relative"}}>
+                   <div style={{position:"absolute", right:"0"}}> 
+            <Card className="bg-white backdrop-blur-sm border border-gray-200 rounded-xl shadow-lg">
+                   <CardContent>
+                    <table className="w-full min-w-[600px]">
+                            <thead className="bg-indigo-100">
+                                <tr>
+                                    <th className="px-4 py-3 text-left text-indigo-800 font-semibold uppercase tracking-wider border-b border-gray-200">
+                                        Forma de pago
+                                    </th>
+                                    <th className="px-4 py-3 text-right text-indigo-800 font-semibold uppercase tracking-wider border-b border-gray-200">
+                                        Total
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-gray-200">
 
                                 {/* Métodos de Pago */}
                                 {['Efectivo', 'Tarjeta', 'Crédito'].map((method, index) => (
                                     <tr key={index} className="hover:bg-green-50 even:bg-gray-50">
                                         <td className="px-4 py-3 text-green-900 font-medium">{method}</td>
                                         <td className="px-4 py-3 text-right text-gray-500">-</td>
-                                        <td className="px-4 py-3 text-right text-gray-500">-</td>
                                     </tr>
                                 ))}
                             </tbody>
                         </table>
-                    </div>
                 </CardContent>
-            </Card>
+                </Card>
+
+                    </div>
+                   </div>
+            </div>
         </div>
     )
 }
