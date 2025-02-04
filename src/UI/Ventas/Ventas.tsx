@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { Card, CardContent } from "../UIComponents/card";
 import { Button } from "../UIComponents/button";
-import { Input } from "../UIComponents/input";
+//import { Input } from "../UIComponents/input";
 import { useNavigate } from "react-router-dom";
 import logo from '../../assets/165 x 645.png';
 import { VentasService } from "../../Services/VentasService";
 import { VentasArticulo } from "../../Models/VentasArticulos";
+import DatePicker, { DateObject } from "react-multi-date-picker";
+//import DatePanel from "react-multi-date-picker/plugins/date_panel";
 
 function Ventas() {
     const navigate = useNavigate();
-    const [date, setDate] = useState("Fecha");
     const [sales, setSales] = useState<VentasArticulo[]>([]);
-    const [clients, setClients] = useState([]);
-    const [banks, setBanks] = useState([]);
     const [currentTime, setCurrentTime] = useState(new Date().toLocaleString());
+    const [selectedDates, setSelectedDates] = useState<DateObject[]>([]);
 
     const ventasService = new VentasService();
     
@@ -27,51 +27,32 @@ function Ventas() {
         </svg>
     );
 
-    useEffect(()=>{
-
-        async function buscar(){
-           // var response:VentasArticulo[] = await ventasService.obtenerVentasArticulosPorFechas("2024-10-02", "2024-10-02");
-
-            var response = [
-                {
-                  "id": 11856,
-                  "nombre": "DIESEL",
-                  "unidades": 138968,
-                  "total": 3448104.23
-                },
-                {
-                  "id": 11857,
-                  "nombre": "MAGNA",
-                  "unidades": 180336,
-                  "total": 4240608.34
-                },
-                {
-                  "id": 11858,
-                  "nombre": "PEMEX PREMIUM",
-                  "unidades": 25260,
-                  "total": 639078.04
-                },
-                {
-                  "id": 0,
-                  "nombre": "ACEITES Y LUBRICANTES",
-                  "unidades": 422,
-                  "total": 99254.2
-                }
-              ]
-
-            setSales(response);
+    async function buscar(dates: DateObject[]) {
+        if (dates.length !== 2) {
+            console.error("Selecciona un rango de fechas válido");
+            return;
         }
+        const startDate = dates[0].format("YYYY-MM-DD");
+        const endDate = dates[1].format("YYYY-MM-DD");
+        const response = await ventasService.obtenerVentasArticulosPorFechas(startDate, endDate);
+        // var response:VentasArticulo[] = await ventasService.obtenerVentasArticulosPorFechas("2024-10-02", "2024-10-02");
+        setSales(response);
+    }
 
-        buscar();
-    },[])
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setCurrentTime(new Date().toLocaleString());
+        }, 1000);
+        return () => clearInterval(timer);
+    }, []);
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-blue-700 to-emerald-800 p-4 space-y-4">
             {/* navbar */}
             <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 flex flex-col md:flex-row justify-between items-stretch gap-4 shadow-lg">
-                {/* Logo y controles */}
                 <div className="flex items-center space-x-4">
                     <div className="w-32 h-8 bg-white/20 rounded-lg">
+                {/* Logo y controles */}
                         <img src={logo} alt="Digitreports" className="w-full h-full object-contain" />
                     </div>
                     <div>
@@ -79,26 +60,36 @@ function Ventas() {
                             Generar Reporte
                         </Button>
                     </div>
-                    <div className="flex flex-1 w-full xs:w-auto flex-col sm:flex-row gap-2">
-                        <Input
-                            type="date"
-                            value={date}
-                            onChange={(e) => setDate(e.target.value)}
-                            className="w-full sm:w-40 bg-white/20 backdrop-blur-sm border border-white/30 text-white placeholder:text-white/70"
+                    <div className="flex flex-1 w-full xs:w-auto flex-col sm:flex-row gap-4 text-white placeholder:text-white/70" style={{ overflow: "visible" }}>
+                        <DatePicker
+                        value={selectedDates}
+                        onChange={(dates: DateObject[]) => setSelectedDates(dates)}
+                        range
+                        sort
+                        format="YYYY/MM/DD"
+                        weekDays={["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"]}
+                        months={["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+  "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]}
+                        calendarPosition="bottom-center"
+                        //plugins={[<DatePanel />]}
+                        showOtherDays
+                        portal
+                        className="w-full sm:w-40 bg-white/20 backdrop-blur-sm border border-white/30 text-white placeholder:text-white/70"
                         />
-                        <Button className="w-full sm:w-auto bg-white/10 hover:bg-white/20 border border-white/30 text-white">
+                        <Button 
+                            onClick={() => buscar(selectedDates)}
+                            className="w-full sm:w-auto bg-white/10 hover:bg-white/20 border border-white/30 text-white"
+                        >
                             Cargar
                         </Button>
                     </div>
                 </div>
-
                 {/* Fecha */}
                 <div className="flex-1 flex items-center justify-center bg-white/10 px-2 py-2 rounded-lg backdrop-blur-sm">
                     <div className="text-white text-sm md:text-base lg:text-lg whitespace-nowrap">
                         Fecha Actual: {currentTime}
                     </div>
                 </div>
-
                 {/* Botón Atrás */}
                 <Button 
                     onClick={handleBack}
@@ -109,6 +100,8 @@ function Ventas() {
                 </Button>
             </div>
 
+            <div style={{zIndex:1}}>
+            
             {/* Tabla Ventas */}
             <Card className="bg-white backdrop-blur-sm border border-gray-200 rounded-xl shadow-lg">
                 <CardContent>
@@ -153,41 +146,32 @@ function Ventas() {
                         </table>
                     </div>
                 </CardContent>
-            </Card>
-
-            <div>
-               
-                   <div style={{position:"relative"}}>
-                   <div style={{position:"absolute", right:"0"}}> 
+            </Card></div>
+                        <div className="flex justify-center items-center">
             <Card className="bg-white backdrop-blur-sm border border-gray-200 rounded-xl shadow-lg">
-                   <CardContent>
-                    <table className="w-full min-w-[600px]">
-                            <thead className="bg-indigo-100">
-                                <tr>
-                                    <th className="px-4 py-3 text-left text-indigo-800 font-semibold uppercase tracking-wider border-b border-gray-200">
-                                        Forma de pago
-                                    </th>
-                                    <th className="px-4 py-3 text-right text-indigo-800 font-semibold uppercase tracking-wider border-b border-gray-200">
-                                        Total
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-gray-200">
-
-                                {/* Métodos de Pago */}
-                                {['Efectivo', 'Tarjeta', 'Crédito'].map((method, index) => (
-                                    <tr key={index} className="hover:bg-green-50 even:bg-gray-50">
-                                        <td className="px-4 py-3 text-green-900 font-medium">{method}</td>
-                                        <td className="px-4 py-3 text-right text-gray-500">-</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                <CardContent>
+                <table className="w-full min-w-[600px]">
+                    <thead className="bg-indigo-100">
+                    <tr>
+                        <th className="px-4 py-3 text-left text-indigo-800 font-semibold uppercase tracking-wider border-b border-gray-200">
+                        Forma de pago
+                        </th>
+                        <th className="px-4 py-3 text-right text-indigo-800 font-semibold uppercase tracking-wider border-b border-gray-200">
+                        Total
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-200">
+                    {["Efectivo", "Tarjeta", "Crédito"].map((method, index) => (
+                        <tr key={index} className="hover:bg-green-50 even:bg-gray-50">
+                        <td className="px-4 py-3 text-green-900 font-medium">{method}</td>
+                        <td className="px-4 py-3 text-right text-gray-500">-</td>
+                        </tr>
+                    ))}
+                    </tbody>
+                </table>
                 </CardContent>
-                </Card>
-
-                    </div>
-                   </div>
+            </Card>
             </div>
         </div>
     )
