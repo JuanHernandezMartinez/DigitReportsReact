@@ -1,0 +1,32 @@
+{
+  "short_name": "Almacen",
+  "name": "Almacen Diagnocons",
+  "description": "sistema de almacen",
+  "icons": [
+    {
+      "src": "460x460.png",
+      "sizes": "460x460",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "165 x 645.png",
+      "type": "image/png",
+      "sizes": "460x460",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "165 x 645.png",
+      "type": "image/png",
+      "sizes": "460x460",
+      "form_factor": "wide"
+    }
+  ],
+  "id": "/",
+  "start_url": "/",
+  "display": "fullscreen",
+  "background_color": "#FFFFFF",
+  "theme_color": "#FFFFFF"
+}
