@@ -27,16 +27,22 @@ function Ventas() {
         </svg>
     );
 
-    async function buscar(dates: DateObject[]) {
+    function buscar(dates: DateObject[]) {
+        console.log("entro la funcion buscar: ", dates)
+        setSales([]);
+        setSelectedDates(dates);
         if (dates.length !== 2) {
             console.error("Selecciona un rango de fechas válido");
             return;
         }
+
         const startDate = dates[0].format("YYYY-MM-DD");
         const endDate = dates[1].format("YYYY-MM-DD");
-        const response = await ventasService.obtenerVentasArticulosPorFechas(startDate, endDate);
+        console.log("buscando datos")
+        ventasService.obtenerVentasArticulosPorFechas(startDate, endDate).then((data)=>{
+            setSales(data);
+        })
         // var response:VentasArticulo[] = await ventasService.obtenerVentasArticulosPorFechas("2024-10-02", "2024-10-02");
-        setSales(response);
     }
 
     useEffect(() => {
@@ -63,7 +69,7 @@ function Ventas() {
                     <div className="flex flex-1 w-full xs:w-auto flex-col sm:flex-row gap-4 text-white placeholder:text-white/70" style={{ overflow: "visible" }}>
                         <DatePicker
                         value={selectedDates}
-                        onChange={(dates: DateObject[]) => setSelectedDates(dates)}
+                        onChange={(dates: DateObject[]) => buscar(dates)}
                         range
                         sort
                         format="YYYY/MM/DD"
@@ -80,7 +86,7 @@ function Ventas() {
                             onClick={() => buscar(selectedDates)}
                             className="w-full sm:w-auto bg-white/10 hover:bg-white/20 border border-white/30 text-white"
                         >
-                            Cargar
+                            Recargar
                         </Button>
                     </div>
                 </div>
