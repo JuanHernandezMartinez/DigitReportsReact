@@ -61,11 +61,7 @@ function Ventas() {
                 {/* Logo y controles */}
                         <img src={logo} alt="Digitreports" className="w-full h-full object-contain" />
                     </div>
-                    <div>
-                        <Button className="w-full sm:w-auto bg-white/10 hover:bg-white/20 border border-white/30 text-white">
-                            Generar Reporte
-                        </Button>
-                    </div>
+                    
                     <div className="flex flex-1 w-full xs:w-auto flex-col sm:flex-row gap-4 text-white placeholder:text-white/70" style={{ overflow: "visible" }}>
                         <DatePicker
                         value={selectedDates}
@@ -87,6 +83,11 @@ function Ventas() {
                             className="w-full sm:w-auto bg-white/10 hover:bg-white/20 border border-white/30 text-white"
                         >
                             Recargar
+                        </Button>
+                    </div>
+                    <div>
+                        <Button className="w-full sm:w-auto bg-white/10 hover:bg-white/20 border border-white/30 text-white">
+                            Generar Reporte
                         </Button>
                     </div>
                 </div>
