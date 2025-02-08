@@ -45,9 +45,6 @@ const Login: React.FC = () => {
               />
               <span>Recuérdame</span>
             </label>
-            <a href="#" className="text-white hover:text-white/80 text-sm">
-              ¿Olvidaste tu contraseña?
-            </a>
           </div>
 
           <button
@@ -59,15 +56,6 @@ const Login: React.FC = () => {
             Ingresar
           </button>
         </form>
-
-        <div className="mt-6 text-center">
-          <p className="text-white/80">
-            ¿No tienes cuenta? {' '}
-            <a href="#" className="text-white hover:text-white/80 font-semibold">
-              Regístrate
-            </a>
-          </p>
-        </div>
       </div>
     </div>
   );
