@@ -6,6 +6,8 @@ import logo from '../../assets/165 x 645.png';
 import { VentasService } from "../../Services/VentasService";
 import { VentasArticulo } from "../../Models/VentasArticulos";
 import DatePicker, { DateObject } from "react-multi-date-picker";
+import VentasComponent from "../Ventas/VentasComponent";
+import Ventas from "../Ventas/Ventas";
 
 function Tablas() {
   const navigate = useNavigate();
@@ -116,7 +118,7 @@ function Tablas() {
             <div style={{zIndex:1}}>
 
       {/* Tabla Ventas */}
-                  <Card className="bg-white backdrop-blur-sm border border-gray-200 rounded-xl shadow-lg">
+                  {/* <Card className="bg-white backdrop-blur-sm border border-gray-200 rounded-xl shadow-lg">
                       <CardContent>
                           <h2 className="text-2xl font-bold text-gray-800 mb-6">Registro de Ventas</h2>
                           <div className="overflow-x-auto rounded-lg border border-gray-200">
@@ -145,7 +147,7 @@ function Tablas() {
                                           </tr>
                                       ))}
                                       
-                                      {/* Fila de Totales */}
+                                      
                                       <tr className="bg-blue-100 font-bold">
                                           <td className="px-4 py-3 text-blue-900 border-t border-gray-200">Totales</td>
                                           <td className="px-4 py-3 text-right text-blue-900 border-t border-gray-200">
@@ -159,7 +161,11 @@ function Tablas() {
                               </table>
                           </div>
                       </CardContent>
-                  </Card>
+                  </Card> */}
+
+                  <Ventas hide={true}>
+
+                  </Ventas>
                   
                   <div className="flex flex-col gap-4">
                   <Card className="bg-white backdrop-blur-sm border border-gray-200 rounded-xl shadow-lg">

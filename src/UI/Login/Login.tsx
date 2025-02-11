@@ -13,7 +13,7 @@ const Login: React.FC = () => {
       <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 shadow-xl w-full max-w-md">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-white mb-2">Bienvenido A DigitReports</h1>
-          <p className="text-white/80">Por Favor De Iniciar Sesión</p>
+          <p className="text-white/80">Favor De Iniciar Sesión</p>
         </div>
 
         <form className="space-y-6">
@@ -37,17 +37,7 @@ const Login: React.FC = () => {
             />
           </div>
 
-          <div className="flex items-center justify-between">
-            <label className="flex items-center space-x-2 text-white/80">
-              <input 
-                type="checkbox" 
-                className="rounded bg-white/20 border-white/30 focus:ring-white/50" 
-              />
-              <span>Recuérdame</span>
-            </label>
-          </div>
-
-          <button
+            <button
             onClick={handleClick}
             className="w-full bg-gradient-to-r from-blue-400 to-indigo-500 py-3 rounded-lg
               text-white font-semibold hover:opacity-90 transition-opacity duration-200
