@@ -1,7 +1,7 @@
 {
-  "short_name": "Almacen",
-  "name": "Almacen Diagnocons",
-  "description": "sistema de almacen",
+  "short_name": "DigitReports",
+  "name": "DigitReports - WebApp",
+  "description": "Sistema de Reportes",
   "icons": [
     {
       "src": "460x460.png",
