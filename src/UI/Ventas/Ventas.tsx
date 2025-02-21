@@ -61,7 +61,7 @@ function Ventas(props : {hide:boolean}) {
     }, []);
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-700 to-emerald-800 p-4 space-y-4">
+            <div className="min-h-screen bg-gradient-to-br from-blue-700 to-emerald-800 p-4 space-y-4">
             {/* navbar */}
             {hidden !== true?
             <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 flex flex-col md:flex-row justify-between items-stretch gap-4 shadow-lg">
@@ -142,9 +142,9 @@ function Ventas(props : {hide:boolean}) {
                                 {sales.map((sale, index) => (
                                     <tr key={index} className="hover:bg-indigo-50 transition-colors even:bg-gray-50">
                                         <td className="px-4 py-3 text-gray-900 font-medium">{sale.nombre}</td>
-                                        <td className="px-4 py-3 text-right text-gray-900">{sale.unidades}</td>
+                                        <td className="px-4 py-3 text-right text-gray-900 text-xl">{sale.unidades.toLocaleString()}</td>
                                         <td className="px-4 py-3 text-right font-semibold text-blue-800">
-                                            ${sale.total.toFixed(2)}
+                                        ${sale.total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                                         </td>
                                     </tr>
                                 ))}
@@ -152,11 +152,12 @@ function Ventas(props : {hide:boolean}) {
                                 {/* Fila de Totales */}
                                 <tr className="bg-blue-100 font-bold">
                                     <td className="px-4 py-3 text-blue-900 border-t border-gray-200">Totales</td>
-                                    <td className="px-4 py-3 text-right text-blue-900 border-t border-gray-200">
-                                        {sales.reduce((acc, sale) => acc + sale.unidades, 0)}
+                                    <td className="px-4 py-3 text-right text-blue-900 border-t border-gray-200 text-xl">
+                                        {sales.reduce((acc, sale) => acc + sale.unidades, 0).toLocaleString()}
                                     </td>
-                                    <td className="px-4 py-3 text-right text-blue-900 border-t border-gray-200">
-                                        ${sales.reduce((acc, sale) => acc + sale.total, 0).toFixed(2)}
+                                    <td className="px-4 py-3 text-right text-blue-900 border-t border-gray-200 text-xl">
+                                    ${sales.reduce((acc, sale) => acc + sale.total, 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+
                                     </td>
                                 </tr>
                             </tbody>
@@ -181,21 +182,19 @@ function Ventas(props : {hide:boolean}) {
                     <tbody className="divide-y divide-gray-200">
                     {formas.map((form, index) => (
                         <tr key={index} className="hover:bg-green-50 even:bg-gray-50">
-                        <td className="px-4 py-3 text-green-900 font-medium">{form.forma}</td>
-                        <td className="px-4 py-3 text-right text-gray-500">
-                                ${form.total.toFixed(2)}
+                            <td className="px-4 py-3 text-green-900 font-medium">{form.forma}</td>
+                            <td className="px-4 py-3 text-right text-gray-500 text-xl">
+                                ${form.total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                             </td>
                         </tr>
                     ))}
-
                     {/* Fila de Totales */}
                     <tr className="bg-green-100 font-bold">
-                        <td className="px-4 py-3 text-green-900 border-t border-gray-200">Totales</td>
-                        <td className="px-4 py-3 text-right text-green-900 border-t border-gray-200">
-                            ${formas.reduce((acc, form) => acc + form.total, 0).toFixed(2)}
+                        <td className="px-4 py-3 text-blue-900 border-t border-gray-200 text-2xl">Totales</td>
+                        <td className="px-4 py-3 text-right text-blue-900 border-t border-gray-200 text-2xl">
+                            ${formas.reduce((acc, form) => acc + form.total, 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                         </td>
                     </tr>
-                    
                     </tbody>
                 </table>
                 </CardContent>
