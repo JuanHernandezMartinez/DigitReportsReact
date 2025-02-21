@@ -6,16 +6,20 @@ import { useNavigate } from "react-router-dom";
 import logo from '../../assets/165 x 645.png';
 import { VentasService } from "../../Services/VentasService";
 import { VentasArticulo } from "../../Models/VentasArticulos";
+import { FormasService } from "../../Services/FormasService";
+import { FormasArticulos } from "../../Models/FormasArticulos";
 import DatePicker, { DateObject } from "react-multi-date-picker";
 //import DatePanel from "react-multi-date-picker/plugins/date_panel";
 
 function Ventas(props : {hide:boolean}) {
     const navigate = useNavigate();
     const [sales, setSales] = useState<VentasArticulo[]>([]);
+    const [formas, setFormas] = useState<FormasArticulos[]>([]);
     const [currentTime, setCurrentTime] = useState(new Date().toLocaleString());
     const [selectedDates, setSelectedDates] = useState<DateObject[]>([]);
     const hidden=props.hide ? props.hide:false
     const ventasService = new VentasService();
+    const formasService = new FormasService();
     
     const handleBack = () => {
         navigate(-1); // pag anterior
@@ -30,6 +34,7 @@ function Ventas(props : {hide:boolean}) {
     function buscar(dates: DateObject[]) {
         console.log("entro la funcion buscar: ", dates)
         setSales([]);
+        setFormas([]);
         setSelectedDates(dates);
         if (dates.length !== 2) {
             console.error("Selecciona un rango de fechas válido");
@@ -41,6 +46,9 @@ function Ventas(props : {hide:boolean}) {
         console.log("buscando datos")
         ventasService.obtenerVentasArticulosPorFechas(startDate, endDate).then((data)=>{
             setSales(data);
+        })
+        formasService.obtenerFormasArticulosPorFechas(startDate, endDate).then((dataform)=>{
+            setFormas(dataform);
         })
         // var response:VentasArticulo[] = await ventasService.obtenerVentasArticulosPorFechas("2024-10-02", "2024-10-02");
     }
@@ -171,12 +179,23 @@ function Ventas(props : {hide:boolean}) {
                     </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200">
-                    {["Efectivo", "Tarjeta", "Credito", "Faltantes"].map((method, index) => (
+                    {formas.map((form, index) => (
                         <tr key={index} className="hover:bg-green-50 even:bg-gray-50">
-                        <td className="px-4 py-3 text-green-900 font-medium">{method}</td>
-                        <td className="px-4 py-3 text-right text-gray-500">-</td>
+                        <td className="px-4 py-3 text-green-900 font-medium">{form.forma}</td>
+                        <td className="px-4 py-3 text-right text-gray-500">
+                                ${form.total.toFixed(2)}
+                            </td>
                         </tr>
                     ))}
+
+                    {/* Fila de Totales */}
+                    <tr className="bg-green-100 font-bold">
+                        <td className="px-4 py-3 text-green-900 border-t border-gray-200">Totales</td>
+                        <td className="px-4 py-3 text-right text-green-900 border-t border-gray-200">
+                            ${formas.reduce((acc, form) => acc + form.total, 0).toFixed(2)}
+                        </td>
+                    </tr>
+                    
                     </tbody>
                 </table>
                 </CardContent>
