@@ -1,264 +1,81 @@
 import React, { useState, useEffect } from "react";
 import { Card, CardContent } from "./TablasComponents/card";
-import { Button } from "./TablasComponents/button";
-import { useNavigate } from "react-router-dom";
-import logo from '../../assets/165 x 645.png';
 import { VentasService } from "../../Services/VentasService";
+import { FormasService } from "../../Services/FormasService";
+import { FormasArticulo } from "../../Models/FormasArticulos";
 import { VentasArticulo } from "../../Models/VentasArticulos";
-import DatePicker, { DateObject } from "react-multi-date-picker";
-import VentasComponent from "../Ventas/VentasComponent";
-import Ventas from "../Ventas/Ventas";
+import Ventas from "../Ventas/VentasComponent";
+import Formas from "../Ventas/FormasComponent";
+import { ClientesService } from "../../Services/ClientesService";
+import { ClientesArticulo } from "../../Models/ClientesArticulos";
+import Clientes from "../Clientes/ClientesComponent";
+import { BancosService } from "../../Services/BancosService";
+import { BancosArticulo } from "../../Models/BancosArticulos";
+import Bancos from "../Bancos/BancosComponent";
+
+
+
+import Navbar from "../UIComponents/navbar";
 
 function Tablas() {
-  const navigate = useNavigate();
   const [sales, setSales] = useState<VentasArticulo[]>([]);
+  const [formas, setFormas] = useState<FormasArticulos[]>([]);
+  
+  const [clients, setClients] = useState<ClientesArticulo[]>([]);
+  const [banks, setBanks] = useState<BancosArticulo[]>([]);
   const [selectedDates, setSelectedDates] = useState<DateObject[]>([]);
-  const [clients, setClients] = useState([]);
-  const [banks, setBanks] = useState([]);
   const [currentTime, setCurrentTime] = useState(new Date().toLocaleString());
 
   const ventasService = new VentasService();
-  
+  const formasService = new FormasService();
+  const clientesService = new ClientesService();
+  const bancosService = new BancosService();
 
-  const handleBack = () => {
-    navigate(-1); // pag anterior
+  const buscar = (dates: DateObject[]) => {
+    console.log("Fechas seleccionadas:", dates);
+    setSales([]);
+    setFormas([]);
+    setClients([]);
+    setBanks([]);
+    setSelectedDates(dates);
+
+    if (dates.length !== 2) {
+      console.error("Selecciona un rango de fechas válido");
+      return;
+    }
+
+    const startDate = dates[0].format("YYYY-MM-DD");
+    const endDate = dates[1].format("YYYY-MM-DD");
+
+    // Obtener datos de ventas
+    ventasService.obtenerVentasArticulosPorFechas(startDate, endDate).then(setSales);
+    formasService.obtenerFormasArticulosPorFechas(startDate, endDate).then(setFormas);
+    // Obtener datos de clientes
+    clientesService.obtenerClientesArticulosPorFechas(startDate, endDate).then(setClients);
+
+    // Obtener datos de bancos
+    bancosService.obtenerBancosArticulosPorFechas(startDate, endDate).then(setBanks);
   };
 
-  const ArrowLeftIcon = () => (
-    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-    </svg>
-    );
-    function buscar(dates: DateObject[]) {
-      console.log("entro la funcion buscar: ", dates)
-      setSales([]);
-      setSelectedDates(dates);
-      if (dates.length !== 2) {
-          console.error("Selecciona un rango de fechas válido");
-          return;
-      }
-
-      const startDate = dates[0].format("YYYY-MM-DD");
-      const endDate = dates[1].format("YYYY-MM-DD");
-      console.log("buscando datos")
-      ventasService.obtenerVentasArticulosPorFechas(startDate, endDate).then((data)=>{
-          setSales(data);
-      })
-      // var response:VentasArticulo[] = await ventasService.obtenerVentasArticulosPorFechas("2024-10-02", "2024-10-02");
-  }
-
   useEffect(() => {
-      const timer = setInterval(() => {
-          setCurrentTime(new Date().toLocaleString());
-      }, 1000);
-      return () => clearInterval(timer);
+    const timer = setInterval(() => {
+      setCurrentTime(new Date().toLocaleString());
+    }, 1000);
+    return () => clearInterval(timer);
   }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-700 to-emerald-800 p-4 space-y-4">
+            <Navbar selectedDates={selectedDates} setSelectedDates={setSelectedDates} buscar={buscar} currentTime={currentTime} />
+      {/* Secciones de Ventas, Clientes y Bancos */}
+      <Ventas selectedDates={selectedDates} sales={sales} />
+      <Formas selectedDates={selectedDates} formas={formas} />
+      <Clientes selectedDates={selectedDates} clients={clients} />
+      <Bancos selectedDates={selectedDates} banks={banks} />
+      
 
-        <div className="min-h-screen bg-gradient-to-br from-blue-700 to-emerald-800 p-4 space-y-4">
-            {/* navbar */}
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 flex flex-col md:flex-row justify-between items-stretch gap-4 shadow-lg">
-            <div className="flex items-center space-x-4">
-                <div className="w-32 h-8 bg-white/20 rounded-lg">
-            {/* Logo y controles */}
-                    <img src={logo} alt="Digitreports" className="w-full h-full object-contain" />
-                </div>
-                
-                <div className="flex flex-1 w-full xs:w-auto flex-col sm:flex-row gap-4 text-white placeholder:text-white/70" style={{ overflow: "visible" }}>
-                    <DatePicker
-                    value={selectedDates}
-                    onChange={(dates: DateObject[]) => buscar(dates)}
-                    range
-                    sort
-                    format="YYYY/MM/DD"
-                    weekDays={["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"]}
-                    months={["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-"Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]}
-                    calendarPosition="bottom-center"
-                    //plugins={[<DatePanel />]}
-                    showOtherDays
-                    portal
-                    placeholder="Seleccione Una Fecha"
-                    className="w-full sm:w-40 bg-white/20 backdrop-blur-sm border border-white/30 text-white placeholder:text-white/70"
-                    />
-                    <Button 
-                        onClick={() => buscar(selectedDates)}
-                        className="w-full sm:w-auto bg-white/10 hover:bg-white/20 border border-white/30 text-white"
-                    >
-                        Recargar
-                    </Button>
-                </div>
-                <div>
-                    <Button className="w-full sm:w-auto bg-white/10 hover:bg-white/20 border border-white/30 text-white">
-                        Generar Reporte
-                    </Button>
-                </div>
-            </div>
-            {/* Fecha */}
-            <div className="flex-1 flex items-center justify-center bg-white/10 px-2 py-2 rounded-lg backdrop-blur-sm">
-                <div className="text-white text-sm md:text-base lg:text-lg whitespace-nowrap">
-                    Fecha Actual: {currentTime}
-                </div>
-            </div>
-            {/* Botón Atrás */}
-            <Button 
-                onClick={handleBack}
-                className="bg-white/10 hover:bg-white/20 border border-white/30 text-white flex items-center justify-center space-x-2"
-            >
-                <ArrowLeftIcon />
-                <span>Volver</span>
-            </Button>
-        </div>
-
-
-            <div className="space-y-4">
-
-            <div style={{zIndex:1}}>
-                  <Ventas hide={true}>
-                  </Ventas>
-                  <div className="flex flex-col gap-4">
-                  <Card className="bg-white backdrop-blur-sm border border-gray-200 rounded-xl shadow-lg">
-                      <CardContent>
-                      <table className="w-full min-w-[600px]">
-                          <thead className="bg-indigo-100">
-                          <tr>
-                              <th className="px-4 py-3 text-left text-indigo-800 font-semibold uppercase tracking-wider border-b border-gray-200">
-                              Forma de pago
-                              </th>
-                              <th className="px-4 py-3 text-right text-indigo-800 font-semibold uppercase tracking-wider border-b border-gray-200">
-                              Total
-                              </th>
-                          </tr>
-                          </thead>
-                          <tbody className="divide-y divide-gray-200">
-                          {["Efectivo", "Tarjeta", "Crédito"].map((method, index) => (
-                              <tr key={index} className="hover:bg-green-50 even:bg-gray-50">
-                              <td className="px-4 py-3 text-green-900 font-medium">{method}</td>
-                              <td className="px-4 py-3 text-right text-gray-500">-</td>
-                              </tr>
-                          ))}
-                          </tbody>
-                      </table>
-                      </CardContent>
-                  </Card>
-
-      {/* Clientes */}
-      <Card className="bg-white backdrop-blur-sm border border-gray-200 rounded-xl shadow-lg">
-        <CardContent className="p-6">
-          <h2 className="text-2xl font-bold text-gray-800 mb-6">Clientes</h2>
-          <div className="overflow-x-auto rounded-lg border border-gray-200">
-            <table className="w-full min-w-[700px]">
-              <thead className="bg-green-100">
-                <tr>
-                  <th className="px-4 py-3 text-left text-green-900 font-semibold uppercase border-b border-green-200">
-                    Cliente
-                  </th>
-                  <th className="px-4 py-3 text-right text-green-900 font-semibold uppercase border-b border-green-200">
-                    Pago
-                  </th>
-                  <th className="px-4 py-3 text-right text-green-900 font-semibold uppercase border-b border-green-200">
-                    Cargo
-                  </th>
-                  <th className="px-4 py-3 text-right text-green-900 font-semibold uppercase border-b border-green-200">
-                    Saldo
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-200">
-                {clients.map((client, index) => (
-                  <tr key={index} className="hover:bg-green-50 even:bg-gray-50 transition-colors">
-                    <td className="px-4 py-3 text-gray-900 font-medium">{client.name}</td>
-                    <td className="px-4 py-3 text-right text-green-700">${client.payment.toFixed(2)}</td>
-                    <td className="px-4 py-3 text-right text-red-700">${client.charge.toFixed(2)}</td>
-                    <td className="px-4 py-3 text-right font-semibold text-gray-900">
-                      ${client.balance.toFixed(2)}
-                    </td>
-                  </tr>
-                ))}
-                
-                {/* Fila de Totales */}
-                <tr className="bg-green-50 font-bold border-t border-green-200">
-                  <td className="px-4 py-3 text-green-900">Totales</td>
-                  <td className="px-4 py-3 text-right text-green-700">
-                    ${clients.reduce((acc, client) => acc + client.payment, 0).toFixed(2)}
-                  </td>
-                  <td className="px-4 py-3 text-right text-red-700">
-                    ${clients.reduce((acc, client) => acc + client.charge, 0).toFixed(2)}
-                  </td>
-                  <td className="px-4 py-3 text-right text-gray-900">
-                    ${clients.reduce((acc, client) => acc + client.balance, 0).toFixed(2)}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </CardContent>
-      </Card>
-
-      <Card className="bg-white backdrop-blur-sm border border-gray-200 rounded-xl shadow-lg">
-        <CardContent className="p-6">
-          <h2 className="text-2xl font-bold text-gray-800 mb-6">Bancos</h2>
-          <div className="overflow-x-auto rounded-lg border border-gray-200">
-            <table className="w-full min-w-[800px]">
-              <thead className="bg-blue-100">
-                <tr>
-                  <th className="px-4 py-3 text-left text-blue-900 font-semibold uppercase border-b border-blue-200">
-                    Cuenta
-                  </th>
-                  <th className="px-4 py-3 text-right text-blue-900 font-semibold uppercase border-b border-blue-200">
-                    Saldo Inicial
-                  </th>
-                  <th className="px-4 py-3 text-right text-blue-900 font-semibold uppercase border-b border-blue-200">
-                    Depósitos
-                  </th>
-                  <th className="px-4 py-3 text-right text-blue-900 font-semibold uppercase border-b border-blue-200">
-                    Retiros
-                  </th>
-                  <th className="px-4 py-3 text-right text-blue-900 font-semibold uppercase border-b border-blue-200">
-                    Saldo Final
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-200">
-                {banks.map((bank, index) => (
-                  <tr key={index} className="hover:bg-blue-50 even:bg-gray-50 transition-colors">
-                    <td className="px-4 py-3 text-gray-900 font-medium">{bank.account}</td>
-                    <td className="px-4 py-3 text-right text-gray-900">${bank.initial.toFixed(2)}</td>
-                    <td className="px-4 py-3 text-right text-green-700">${bank.deposits.toFixed(2)}</td>
-                    <td className="px-4 py-3 text-right text-red-700">${bank.withdrawals.toFixed(2)}</td>
-                    <td className="px-4 py-3 text-right font-semibold text-blue-900">
-                      ${bank.final.toFixed(2)}
-                    </td>
-                  </tr>
-                ))}
-                
-                {/* Fila de Totales */}
-                <tr className="bg-blue-50 font-bold border-t border-blue-200">
-                  <td className="px-4 py-3 text-blue-900">Totales</td>
-                  <td className="px-4 py-3 text-right text-blue-900">
-                    ${banks.reduce((acc, bank) => acc + bank.initial, 0).toFixed(2)}
-                  </td>
-                  <td className="px-4 py-3 text-right text-green-700">
-                    ${banks.reduce((acc, bank) => acc + bank.deposits, 0).toFixed(2)}
-                  </td>
-                  <td className="px-4 py-3 text-right text-red-700">
-                    ${banks.reduce((acc, bank) => acc + bank.withdrawals, 0).toFixed(2)}
-                  </td>
-                  <td className="px-4 py-3 text-right text-blue-900">
-                    ${banks.reduce((acc, bank) => acc + bank.final, 0).toFixed(2)}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </CardContent>
-      </Card>
     </div>
-    </div>
-    </div>    </div>    </div>
   );
-};
+}
 
 export default Tablas;

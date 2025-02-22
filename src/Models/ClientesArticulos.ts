@@ -1,4 +1,4 @@
-export class FormasArticulo {
+export class ClientesArticulo {
     id: number
     forma: string
     unidades: number
