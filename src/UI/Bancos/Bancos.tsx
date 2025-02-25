@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { Card, CardContent } from "./TablasComponents/card";
+import { useState, useEffect } from "react";
 import { BancosService } from "../../Services/BancosService";
 import { BancosArticulo } from "../../Models/BancosArticulos";
 import Bancos from "../Bancos/BancosComponent";
 import Navbar from "../UIComponents/navbar";
+import DateObject from "react-date-object";
 
 function BancosUI() {
   const [banks, setBanks] = useState<BancosArticulo[]>([]);
@@ -25,7 +25,12 @@ function BancosUI() {
     const endDate = dates[1].format("YYYY-MM-DD");
 
     // Obtener datos de bancos
-    bancosService.obtenerBancosArticulosPorFechas(startDate, endDate).then(setBanks);
+    bancosService
+      .obtenerBancosArticulosPorFechas(startDate, endDate)
+      .then((data) => {
+        console.log(data);
+        setBanks(data);
+      });
   };
 
   useEffect(() => {
@@ -37,11 +42,14 @@ function BancosUI() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-700 to-emerald-800 p-4 space-y-4">
-            <Navbar selectedDates={selectedDates} setSelectedDates={setSelectedDates} buscar={buscar} currentTime={currentTime} />
+      <Navbar
+        selectedDates={selectedDates}
+        setSelectedDates={setSelectedDates}
+        buscar={buscar}
+        currentTime={currentTime}
+      />
       {/* Seccion de Bancos */}
-      <Bancos selectedDates={selectedDates} banks={banks} />
-      
-
+      <Bancos banks={banks} />
     </div>
   );
 }
