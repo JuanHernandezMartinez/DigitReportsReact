@@ -34,38 +34,43 @@ function BancosComponent({ selectedDates, banks }: { selectedDates: any[], banks
         <tbody className="divide-y divide-gray-200">
           {banks.map((bank, index) => (
             <tr key={index} className="hover:bg-blue-50 even:bg-gray-50 transition-colors">
-              <td className="px-4 py-3 text-gray-900 font-medium">{bank.account}</td>
-              <td className="px-4 py-3 text-right text-gray-900">${bank.initial.toFixed(2)}</td>
-              <td className="px-4 py-3 text-right text-green-700">${bank.deposits.toFixed(2)}</td>
-              <td className="px-4 py-3 text-right text-red-700">${bank.withdrawals.toFixed(2)}</td>
+              <td className="px-4 py-3 text-gray-900 font-medium">{bank.banco}</td>
+              <td className="px-4 py-3 text-right text-gray-900">
+                ${bank.saldoInicial.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              </td>
+              <td className="px-4 py-3 text-right text-green-700">
+                ${bank.depositors.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              </td>
+              <td className="px-4 py-3 text-right text-red-700">
+                ${bank.retiros.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              </td>
               <td className="px-4 py-3 text-right font-semibold text-blue-900">
-                ${bank.final.toFixed(2)}
+                ${bank.saldoFinal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </td>
             </tr>
           ))}
-          
+
           {/* Fila de Totales */}
           <tr className="bg-blue-50 font-bold border-t border-blue-200">
             <td className="px-4 py-3 text-blue-900">Totales</td>
             <td className="px-4 py-3 text-right text-blue-900">
-              ${banks.reduce((acc, bank) => acc + bank.initial, 0).toFixed(2)}
+              ${banks.reduce((acc, bank) => acc + bank.saldoInicial, 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </td>
             <td className="px-4 py-3 text-right text-green-700">
-              ${banks.reduce((acc, bank) => acc + bank.deposits, 0).toFixed(2)}
+              ${banks.reduce((acc, bank) => acc + bank.depositors, 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </td>
             <td className="px-4 py-3 text-right text-red-700">
-              ${banks.reduce((acc, bank) => acc + bank.withdrawals, 0).toFixed(2)}
+              ${banks.reduce((acc, bank) => acc + bank.retiros, 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </td>
             <td className="px-4 py-3 text-right text-blue-900">
-              ${banks.reduce((acc, bank) => acc + bank.final, 0).toFixed(2)}
+              ${banks.reduce((acc, bank) => acc + bank.saldoFinal, 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </td>
           </tr>
         </tbody>
       </table>
     </div>
   </CardContent>
-</Card>
-        
+</Card>  
     )
 }
 

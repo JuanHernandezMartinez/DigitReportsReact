@@ -1,6 +1,6 @@
 import { Formas } from "../Models/Formas";
 import axios from '../Interceptors/AxiosInterceptor'
-import { FormasArticulos } from "../Models/FormasArticulos";
+import { FormasArticulo } from "../Models/FormasArticulos";
 
 export class FormasService {
    async obtenerTodasLasVentas(): Promise<Formas[]> { 
@@ -12,7 +12,7 @@ export class FormasService {
    
    //http://localhost:8080/ventas/articulos/2024-10-01/2024-10-30
    //formato de la fecha year-month-day = yyyy-mm-dd
-   async obtenerFormasArticulosPorFechas(fechaInicio:any, fechaFin:any): Promise<FormasArticulos[]>{
+   async obtenerFormasArticulosPorFechas(fechaInicio:any, fechaFin:any): Promise<FormasArticulo[]>{
       return (await axios.get(`/formas-pago/fechas/${fechaInicio}/${fechaFin}`)).data
    }
 

@@ -1,6 +1,8 @@
 export class BancosArticulo {
-    id: number
-    forma: string
-    unidades: number
-    total: number
+    cuentaBancoId:number;
+    banco:string;
+    saldoInicial:string;
+    depositors:string;
+    retiros:string;
+    saldoFinal:string;
 }
