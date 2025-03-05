@@ -1,11 +1,37 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const handleClick = () => {
-    navigate('/Home');
+  const handleLogin = async (event: React.FormEvent) => {
+    event.preventDefault();
+
+    try {
+      const response = await fetch("http://localhost:8080/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ user: email, password }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Credenciales incorrectas");
+      }
+
+      const token = await response.text();
+      localStorage.setItem("token", token);
+
+      alert("Inicio de sesión exitoso");
+      navigate("/Home");
+    } catch (error: any) {
+      console.error(error);
+      setError(error.message || "Error al iniciar sesión");
+    }
   };
 
   return (
@@ -16,11 +42,13 @@ const Login: React.FC = () => {
           <p className="text-white/80">Favor De Iniciar Sesión</p>
         </div>
 
-        <form className="space-y-6">
+        <form className="space-y-6" onSubmit={handleLogin}>
           <div>
             <input
-              type="email"
+              type="text"
               placeholder="Usuario"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full px-4 py-3 rounded-lg bg-white/20 backdrop-blur-sm border border-white/30 
                 placeholder:text-white/70 text-white focus:outline-none focus:ring-2 focus:ring-white/50 
                 transition-all duration-200"
@@ -31,20 +59,23 @@ const Login: React.FC = () => {
             <input
               type="password"
               placeholder="Contraseña"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="w-full px-4 py-3 rounded-lg bg-white/20 backdrop-blur-sm border border-white/30 
                 placeholder:text-white/70 text-white focus:outline-none focus:ring-2 focus:ring-white/50 
                 transition-all duration-200"
             />
           </div>
 
-            <button
-            onClick={handleClick}
+          <button
+            type="submit"
             className="w-full bg-gradient-to-r from-blue-400 to-indigo-500 py-3 rounded-lg
               text-white font-semibold hover:opacity-90 transition-opacity duration-200
               shadow-lg hover:shadow-xl"
           >
             Ingresar
           </button>
+          {error && <p className="text-red-500">{error}</p>}
         </form>
       </div>
     </div>
