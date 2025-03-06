@@ -10,7 +10,8 @@ const Home: React.FC = () => {
   };
 
   const handleLogout = () => {
-    navigate('/');
+    localStorage.removeItem("token");
+    window.location.href = "/";
   };
 
   // Iconos

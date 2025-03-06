@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Login: React.FC = () => {
@@ -6,6 +6,14 @@ const Login: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
+  // 🔹 Si ya hay sesión, redirigir a /home
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      navigate("/home");
+    }
+  }, []);
 
   const handleLogin = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -27,7 +35,7 @@ const Login: React.FC = () => {
       localStorage.setItem("token", token);
 
       alert("Inicio de sesión exitoso");
-      navigate("/Home");
+      navigate("/home"); // 🔹 Redirigir después de login
     } catch (error: any) {
       console.error(error);
       setError(error.message || "Error al iniciar sesión");
