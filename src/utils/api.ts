@@ -1,11 +1,24 @@
-export const apiFetch = async (url: string, options: RequestInit = {}) => {
+import axios from "axios";
+
+const api = axios.create({
+  baseURL: "http://localhost:8080",
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+// Interceptor 
+api.interceptors.request.use(
+  (config) => {
     const token = localStorage.getItem("token");
-    const headers = {
-      ...options.headers,
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    };
-  
-    return fetch(url, { ...options, headers });
-  };
-  
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+export default api;

@@ -12,7 +12,7 @@ function ClientesUI() {
 
   const clientesService = new ClientesService();
 
-  const buscar = (dates: DateObject[]) => {
+  const buscar = async (dates: DateObject[]) => {
     console.log("Fechas seleccionadas:", dates);
     setClients([]);
     setSelectedDates(dates);
@@ -24,11 +24,15 @@ function ClientesUI() {
 
     const startDate = dates[0].format("YYYY-MM-DD");
     const endDate = dates[1].format("YYYY-MM-DD");
+    const dataBase = "GRANILLO";
 
-    // Obtener datos de clientes
-    clientesService.obtenerClientesPorFechas(startDate, endDate).then(setClients);
-
-  };
+  try {
+    const clientesData = await clientesService.obtenerClientesArticulosPorFechas(dataBase, startDate, endDate);
+    setClients(clientesData);
+  } catch (error) {
+    console.error("Error al obtener datos:", error);
+  }
+};
 
   useEffect(() => {
     const timer = setInterval(() => {

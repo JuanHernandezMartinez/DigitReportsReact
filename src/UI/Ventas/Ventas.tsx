@@ -9,7 +9,7 @@ import Navbar from "../UIComponents/navbar";
 
 function VentasUI() {
   const [sales, setSales] = useState<VentasArticulo[]>([]);
-  const [formas, setFormas] = useState<FormasArticulos[]>([]);
+  const [formas, setFormas] = useState<FormasArticulo[]>([]);
   
   const [selectedDates, setSelectedDates] = useState<DateObject[]>([]);
   const [currentTime, setCurrentTime] = useState(new Date().toLocaleString());
@@ -17,7 +17,7 @@ function VentasUI() {
   const ventasService = new VentasService();
   const formasService = new FormasService();
 
-  const buscar = (dates: DateObject[]) => {
+  const buscar = async (dates: DateObject[]) => {
     console.log("Fechas seleccionadas:", dates);
     setSales([]);
     setFormas([]);
@@ -30,10 +30,17 @@ function VentasUI() {
 
     const startDate = dates[0].format("YYYY-MM-DD");
     const endDate = dates[1].format("YYYY-MM-DD");
+    const dataBase = "GRANILLO";
 
-    // Obtener datos de ventas
-    ventasService.obtenerVentasArticulosPorFechas(startDate, endDate).then(setSales);
-    formasService.obtenerFormasArticulosPorFechas(startDate, endDate).then(setFormas);
+    try {
+      const ventasData = await ventasService.obtenerVentasArticulosPorFechas(dataBase, startDate, endDate);
+      setSales(ventasData);
+
+      const formasData = await formasService.obtenerFormasArticulosPorFechas(dataBase, startDate, endDate);
+      setFormas(formasData);
+    } catch (error) {
+      console.error("Error al obtener datos:", error);
+    }
   };
 
   useEffect(() => {

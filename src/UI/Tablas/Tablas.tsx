@@ -12,17 +12,16 @@ import Clientes from "../Clientes/ClientesComponent";
 import { BancosService } from "../../Services/BancosService";
 import { BancosArticulo } from "../../Models/BancosArticulos";
 import Bancos from "../Bancos/BancosComponent";
-
-
-
 import Navbar from "../UIComponents/navbar";
 
 function Tablas() {
   const [sales, setSales] = useState<VentasArticulo[]>([]);
-  const [formas, setFormas] = useState<FormasArticulos[]>([]);
+  const [formas, setFormas] = useState<FormasArticulo[]>([]);
   
   const [clients, setClients] = useState<ClientesArticulo[]>([]);
+
   const [banks, setBanks] = useState<BancosArticulo[]>([]);
+
   const [selectedDates, setSelectedDates] = useState<DateObject[]>([]);
   const [currentTime, setCurrentTime] = useState(new Date().toLocaleString());
 
@@ -31,7 +30,7 @@ function Tablas() {
   const clientesService = new ClientesService();
   const bancosService = new BancosService();
 
-  const buscar = (dates: DateObject[]) => {
+  const buscar = async (dates: DateObject[]) => {
     console.log("Fechas seleccionadas:", dates);
     setSales([]);
     setFormas([]);
@@ -46,15 +45,24 @@ function Tablas() {
 
     const startDate = dates[0].format("YYYY-MM-DD");
     const endDate = dates[1].format("YYYY-MM-DD");
+    const dataBase = "GRANILLO";
 
+
+    try {
     // Obtener datos de ventas
-    ventasService.obtenerVentasArticulosPorFechas(startDate, endDate).then(setSales);
-    formasService.obtenerFormasArticulosPorFechas(startDate, endDate).then(setFormas);
+      const ventasData = await ventasService.obtenerVentasArticulosPorFechas(dataBase, startDate, endDate);
+      setSales(ventasData);
+      const formasData = await formasService.obtenerFormasArticulosPorFechas(dataBase, startDate, endDate);
+      setFormas(formasData);
     // Obtener datos de clientes
-    clientesService.obtenerClientesArticulosPorFechas(startDate, endDate).then(setClients);
-
+      const clientesData = await clientesService.obtenerClientesArticulosPorFechas(dataBase, startDate, endDate);
+      setClients(clientesData);
     // Obtener datos de bancos
-    bancosService.obtenerBancosArticulosPorFechas(startDate, endDate).then(setBanks);
+      const bancosData = await bancosService.obtenerBancosArticulosPorFechas(dataBase, startDate, endDate);
+      setBanks(bancosData);
+    } catch (error) {
+      console.error("Error al obtener datos:", error);
+    }
   };
 
   useEffect(() => {

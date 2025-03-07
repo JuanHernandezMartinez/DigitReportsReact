@@ -11,7 +11,7 @@ function BancosUI() {
   const [currentTime, setCurrentTime] = useState(new Date().toLocaleString());
   const bancosService = new BancosService();
 
-  const buscar = (dates: DateObject[]) => {
+  const buscar = async (dates: DateObject[]) => {
     console.log("Fechas seleccionadas:", dates);
     setBanks([]);
     setSelectedDates(dates);
@@ -23,15 +23,16 @@ function BancosUI() {
 
     const startDate = dates[0].format("YYYY-MM-DD");
     const endDate = dates[1].format("YYYY-MM-DD");
+    const dataBase = "GRANILLO";
 
     // Obtener datos de bancos
-    bancosService
-      .obtenerBancosArticulosPorFechas(startDate, endDate)
-      .then((data) => {
-        console.log(data);
-        setBanks(data);
-      });
-  };
+  try {
+    const bancosData = await bancosService.obtenerBancosArticulosPorFechas(dataBase, startDate, endDate);
+    setBanks(bancosData);
+  } catch (error) {
+    console.error("Error al obtener datos:", error);
+  }
+};
 
   useEffect(() => {
     const timer = setInterval(() => {

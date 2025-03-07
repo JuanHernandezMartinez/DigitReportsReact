@@ -1,19 +1,16 @@
 import { Clientes } from "../Models/Clientes";
 import axios from '../Interceptors/AxiosInterceptor'
 import { ClientesArticulo } from "../Models/ClientesArticulos";
+import api from "../utils/api";
 
 export class ClientesService {
-   async obtenerTodasLasVentas(): Promise<Clientes[]> { 
-    const Clientes = await axios.get('/Clientes');
-    console.log("clientes encontradas: ", Clientes.data)
-    return Clientes.data }
-
-   async obtenerUnaVentaPorId(id:number): Promise<Clientes[]> { return await axios.get(`/Clientes-pago/${id}`)}
-   
-   //http://localhost:8080/ventas/articulos/2024-10-01/2024-10-30
-   //formato de la fecha year-month-day = yyyy-mm-dd
-   async obtenerClientesArticulosPorFechas(fechaInicio:any, fechaFin:any): Promise<ClientesArticulo[]>{
-      return (await axios.get(`/Clientes/fechas/${fechaInicio}/${fechaFin}`)).data
+   async obtenerClientesArticulosPorFechas(dataBase: string, fechaInicio: string, fechaFin: string) {
+     try {
+       const response = await api.get(`/Clientes/fechas/${dataBase}/${fechaInicio}/${fechaFin}`);
+       return response.data;
+     } catch (error) {
+       console.error("Error obteniendo ventas:", error);
+       return [];
+     }
    }
-
-}
+ }
