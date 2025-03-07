@@ -22,7 +22,7 @@ function App() {
       <Route path="/Tablas" element={<Tablas />} />
       </Route>
 
-      <Route path="*" element={<Navigate to="/login" />} />
+      <Route path="*" element={<Navigate to="/" />} />
 
     </Routes>
   </Router>

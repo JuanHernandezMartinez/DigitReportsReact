@@ -7,7 +7,7 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  // 🔹 Si ya hay sesión, redirigir a /home
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -35,11 +35,12 @@ const Login: React.FC = () => {
       localStorage.setItem("token", token);
 
       alert("Inicio de sesión exitoso");
-      navigate("/home"); // 🔹 Redirigir después de login
-    } catch (error: any) {
-      console.error(error);
-      setError(error.message || "Error al iniciar sesión");
-    }
+
+    window.location.replace("/home");
+  } catch (error: any) {
+    console.error(error);
+    setError(error.message || "Error al iniciar sesión");
+  }
   };
 
   return (
