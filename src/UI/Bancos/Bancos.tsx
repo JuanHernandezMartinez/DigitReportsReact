@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { BancosService } from "../../Services/BancosService";
 import { BancosArticulo } from "../../Models/BancosArticulos";
 import Bancos from "../Bancos/BancosComponent";
-import Navbar from "../UIComponents/navbar";
+import Navbar from "../UIComponents/Navbar";
 import DateObject from "react-date-object";
 
 function BancosUI() {

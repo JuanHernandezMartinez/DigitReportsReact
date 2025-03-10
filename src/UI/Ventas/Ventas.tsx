@@ -5,7 +5,7 @@ import { FormasArticulo } from "../../Models/FormasArticulos";
 import { VentasArticulo } from "../../Models/VentasArticulos";
 import Ventas from "../Ventas/VentasComponent";
 import Formas from "../Ventas/FormasComponent";
-import Navbar from "../UIComponents/navbar";
+import Navbar from "../UIComponents/Navbar";
 
 function VentasUI() {
   const [sales, setSales] = useState<VentasArticulo[]>([]);

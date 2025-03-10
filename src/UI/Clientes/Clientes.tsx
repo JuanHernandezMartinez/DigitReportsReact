@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Card, CardContent } from "./TablasComponents/card";
 import { ClientesService } from "../../Services/ClientesService";
 import { ClientesArticulo } from "../../Models/ClientesArticulos";
 import Clientes from "../Clientes/ClientesComponent";
-import Navbar from "../UIComponents/navbar";
+import Navbar from "../UIComponents/Navbar";
 
 function ClientesUI() {
   const [clients, setClients] = useState<ClientesArticulo[]>([]);

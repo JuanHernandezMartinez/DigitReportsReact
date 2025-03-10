@@ -12,7 +12,7 @@ import Clientes from "../Clientes/ClientesComponent";
 import { BancosService } from "../../Services/BancosService";
 import { BancosArticulo } from "../../Models/BancosArticulos";
 import Bancos from "../Bancos/BancosComponent";
-import Navbar from "../UIComponents/navbar";
+import Navbar from "../UIComponents/Navbar";
 
 function Tablas() {
   const [sales, setSales] = useState<VentasArticulo[]>([]);
