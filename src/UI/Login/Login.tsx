@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 const Login: React.FC = () => {
+  const { login } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token") || null;
     if (token) {
       navigate("/home");
     }
@@ -17,37 +18,34 @@ const Login: React.FC = () => {
 
   const handleLogin = async (event: React.FormEvent) => {
     event.preventDefault();
-
-    try {
-      const response = await fetch("http://localhost:8080/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+    toast
+      .promise(
+        async () => {
+          try {
+            await login(email, password);
+          } catch (error: any) {
+            console.error("Error: ", error);
+            throw new Error(error.message);
+          }
         },
-        body: JSON.stringify({ user: email, password }),
+        {
+          loading: "Iniciando...",
+          success: "Correcto",
+          error: "Credenciales incorrectas",
+        }
+      )
+      .then((_result) => {
+        navigate("/home");
       });
-
-      if (!response.ok) {
-        throw new Error("Credenciales incorrectas");
-      }
-
-      const token = await response.text();
-      localStorage.setItem("token", token);
-
-      alert("Inicio de sesión exitoso");
-
-    window.location.replace("/home");
-  } catch (error: any) {
-    console.error(error);
-    setError(error.message || "Error al iniciar sesión");
-  }
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-700 to-emerald-800 flex items-center justify-center p-4">
       <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 shadow-xl w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-white mb-2">Bienvenido A DigitReports</h1>
+          <h1 className="text-4xl font-bold text-white mb-2">
+            Bienvenido A DigitReports
+          </h1>
           <p className="text-white/80">Favor De Iniciar Sesión</p>
         </div>
 
@@ -75,18 +73,17 @@ const Login: React.FC = () => {
                 transition-all duration-200"
             />
           </div>
-
           <button
             type="submit"
             className="w-full bg-gradient-to-r from-blue-400 to-indigo-500 py-3 rounded-lg
               text-white font-semibold hover:opacity-90 transition-opacity duration-200
-              shadow-lg hover:shadow-xl"
+              shadow-lg hover:shadow-xl cursor-pointer"
           >
             Ingresar
           </button>
-          {error && <p className="text-red-500">{error}</p>}
         </form>
       </div>
+      <Toaster />
     </div>
   );
 };
