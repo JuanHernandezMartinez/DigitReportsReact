@@ -21,6 +21,7 @@ function BancosUI() {
 
     if (dates.length !== 2) {
       console.error("Selecciona un rango de fechas válido");
+      toast.error("Selecciona un rango de fechas válido.")
       return;
     }
 
