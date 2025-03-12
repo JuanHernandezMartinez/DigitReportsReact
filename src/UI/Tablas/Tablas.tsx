@@ -20,7 +20,7 @@ import toast, { Toaster } from "react-hot-toast";
 function Tablas() {
   const [sales, setSales] = useState<VentasArticulo[]>([]);
   const [formas, setFormas] = useState<FormasArticulo[]>([]);
-  
+
   const [clients, setClients] = useState<ClientesArticulo[]>([]);
 
   const [banks, setBanks] = useState<BancosArticulo[]>([]);
@@ -44,6 +44,7 @@ function Tablas() {
 
     if (dates.length !== 2) {
       console.error("Selecciona un rango de fechas válido");
+      toast.error("Selecciona un rango de fechas válido.")
       return;
     }
 
