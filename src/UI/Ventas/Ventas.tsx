@@ -6,6 +6,7 @@ import { VentasArticulo } from "../../Models/VentasArticulos";
 import Ventas from "../Ventas/VentasComponent";
 import Formas from "../Ventas/FormasComponent";
 import Navbar from "../UIComponents/Navbar";
+import DateObject from "react-date-object";
 
 function VentasUI() {
   const [sales, setSales] = useState<VentasArticulo[]>([]);

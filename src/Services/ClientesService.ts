@@ -1,6 +1,3 @@
-import { Clientes } from "../Models/Clientes";
-import axios from '../Interceptors/AxiosInterceptor'
-import { ClientesArticulo } from "../Models/ClientesArticulos";
 import api from "../utils/api";
 
 export class ClientesService {

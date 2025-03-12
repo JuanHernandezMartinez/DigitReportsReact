@@ -1,6 +1,3 @@
-import { Bancos } from "../Models/Bancos";
-import axios from '../Interceptors/AxiosInterceptor'
-import { BancosArticulo } from "../Models/BancosArticulos";
 import api from "../utils/api";
 
 export class BancosService {
@@ -9,7 +6,7 @@ export class BancosService {
        const response = await api.get(`/bancos/detalles/${dataBase}/${fechaInicio}/${fechaFin}`);
        return response.data;
      } catch (error) {
-       console.error("Error obteniendo ventas:", error);
+       console.error("Error obteniendo datos de Bancos:", error);
        return [];
      }
    }

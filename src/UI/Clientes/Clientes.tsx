@@ -3,6 +3,7 @@ import { ClientesService } from "../../Services/ClientesService";
 import { ClientesArticulo } from "../../Models/ClientesArticulos";
 import Clientes from "../Clientes/ClientesComponent";
 import Navbar from "../UIComponents/Navbar";
+import DateObject from "react-date-object";
 
 function ClientesUI() {
   const [clients, setClients] = useState<ClientesArticulo[]>([]);
