@@ -57,9 +57,10 @@ const Navbar: React.FC<NavbarProps> = ({ selectedDates, setSelectedDates, buscar
           calendarPosition="bottom-center"
           showOtherDays
           portal
-          placeholder="Seleccione Una Fecha"
-          className="w-full sm:w-40 bg-white/20 backdrop-blur-sm border border-white/30 text-white placeholder:text-white/70"
-        />
+          placeholder="📆 Seleccione Una Fecha "
+          inputClass="text-lg h-10 px-4 bg-white/20 text-white placeholder-white border border-white/30 rounded-lg"
+          containerClassName ="w-full sm:w-60"
+/>
 
         {/* BOTÓN RECARGAR */}
         <Button onClick={() => buscar(selectedDates, dataBase)} className="bg-white/10 border text-white">

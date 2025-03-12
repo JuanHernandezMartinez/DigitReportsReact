@@ -13,6 +13,8 @@ import { BancosArticulo } from "../../Models/BancosArticulos";
 import Bancos from "../Bancos/BancosComponent";
 import Navbar from "../UIComponents/Navbar";
 import DateObject from "react-date-object";
+import toast, { Toaster } from "react-hot-toast";
+
 
 
 function Tablas() {
@@ -61,8 +63,12 @@ function Tablas() {
     // Obtener datos de bancos
       const bancosData = await bancosService.obtenerBancosArticulosPorFechas(selectedDataBase, startDate, endDate);
       setBanks(bancosData);
+
+
+
     } catch (error) {
       console.error("Error al obtener datos:", error);
+      toast.error("Error Al Obtener Los Datos.")
     }
   };
 
@@ -82,8 +88,10 @@ function Tablas() {
       <Clientes selectedDates={selectedDates} clients={clients} />
       <Bancos selectedDates={selectedDates} banks={banks} />
       
-
+      <Toaster />
     </div>
+
+    
   );
 }
 

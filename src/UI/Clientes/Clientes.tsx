@@ -4,6 +4,8 @@ import { ClientesArticulo } from "../../Models/ClientesArticulos";
 import Clientes from "../Clientes/ClientesComponent";
 import Navbar from "../UIComponents/Navbar";
 import DateObject from "react-date-object";
+import toast, { Toaster } from "react-hot-toast";
+
 
 function ClientesUI() {
   const [clients, setClients] = useState<ClientesArticulo[]>([]);
@@ -19,6 +21,7 @@ function ClientesUI() {
 
     if (dates.length !== 2) {
       console.error("Selecciona un rango de fechas válido");
+      toast.error("Selecciona un rango de fechas válido.")
       return;
     }
 
@@ -31,6 +34,7 @@ function ClientesUI() {
     setClients(clientesData);
   } catch (error) {
     console.error("Error al obtener datos:", error);
+    
   }
 };
 
@@ -46,6 +50,7 @@ function ClientesUI() {
             <Navbar selectedDates={selectedDates} setSelectedDates={setSelectedDates} buscar={buscar} currentTime={currentTime} />
       {/* Secciones de Ventas, Clientes y Bancos */}
       <Clientes selectedDates={selectedDates} clients={clients} />
+      <Toaster />
 
     </div>
   );

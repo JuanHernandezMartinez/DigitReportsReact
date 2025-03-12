@@ -30,7 +30,7 @@ const Login: React.FC = () => {
         },
         {
           loading: "Iniciando...",
-          success: "Correcto",
+          success: "Inicio de sesión exitoso",
           error: "Credenciales incorrectas",
         }
       )

@@ -2,6 +2,8 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../../assets/165 x 645.png";
 import { useAuth } from "../../context/AuthContext";
+import toast, { Toaster } from "react-hot-toast";
+
 
 const Home: React.FC = () => {
   const { logout } = useAuth();
@@ -97,7 +99,8 @@ const Home: React.FC = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-700 to-emerald-800">
+    <div 
+    className="min-h-screen bg-gradient-to-br from-blue-700 to-emerald-800">
       <nav className="bg-white/10 backdrop-blur-sm border-b border-white/30 p-4 fixed w-full top-0 z-10">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <div className="w-32 h-8 bg-white/20 rounded-lg animate-pulse">
@@ -168,6 +171,7 @@ const Home: React.FC = () => {
           </div>
         </div>
       </div>
+      <Toaster />
     </div>
   );
 };

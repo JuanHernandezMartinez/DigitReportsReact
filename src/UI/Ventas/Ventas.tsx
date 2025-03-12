@@ -7,6 +7,8 @@ import Ventas from "../Ventas/VentasComponent";
 import Formas from "../Ventas/FormasComponent";
 import Navbar from "../UIComponents/Navbar";
 import DateObject from "react-date-object";
+import toast, { Toaster } from "react-hot-toast";
+
 
 function VentasUI() {
   const [sales, setSales] = useState<VentasArticulo[]>([]);
@@ -26,6 +28,7 @@ function VentasUI() {
 
     if (dates.length !== 2) {
       console.error("Selecciona un rango de fechas válido");
+      toast.error("Selecciona un rango de fechas válido.")
       return;
     }
 
@@ -57,6 +60,7 @@ function VentasUI() {
       {/* Secciones de Ventas*/}
       <Ventas selectedDates={selectedDates} sales={sales} />
       <Formas selectedDates={selectedDates} formas={formas} />
+      <Toaster />
 
     </div>
   );

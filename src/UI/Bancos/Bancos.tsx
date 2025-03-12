@@ -4,6 +4,8 @@ import { BancosArticulo } from "../../Models/BancosArticulos";
 import Bancos from "../Bancos/BancosComponent";
 import Navbar from "../UIComponents/Navbar";
 import DateObject from "react-date-object";
+import toast, { Toaster } from "react-hot-toast";
+
 
 function BancosUI() {
   const [banks, setBanks] = useState<BancosArticulo[]>([]);
@@ -11,8 +13,9 @@ function BancosUI() {
   const [currentTime, setCurrentTime] = useState(new Date().toLocaleString());
   const bancosService = new BancosService();
 
-  const buscar = async (dates: DateObject[]) => {
+  const buscar = async (dates: DateObject[], selectedDataBase: string) => {
     console.log("Fechas seleccionadas:", dates);
+    console.log("Base de datos seleccionada:", selectedDataBase);
     setBanks([]);
     setSelectedDates(dates);
 
@@ -23,14 +26,14 @@ function BancosUI() {
 
     const startDate = dates[0].format("YYYY-MM-DD");
     const endDate = dates[1].format("YYYY-MM-DD");
-    const dataBase = "GRANILLO";
 
     // Obtener datos de bancos
   try {
-    const bancosData = await bancosService.obtenerBancosArticulosPorFechas(dataBase, startDate, endDate);
+    const bancosData = await bancosService.obtenerBancosArticulosPorFechas(selectedDataBase, startDate, endDate);
     setBanks(bancosData);
   } catch (error) {
     console.error("Error al obtener datos:", error);
+    toast.error("Error Al Obtener Los Datos.")
   }
 };
 
@@ -51,6 +54,8 @@ function BancosUI() {
       />
       {/* Seccion de Bancos */}
       <Bancos banks={banks} />
+            <Toaster />
+      
     </div>
   );
 }
