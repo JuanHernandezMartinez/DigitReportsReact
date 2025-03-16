@@ -55,7 +55,7 @@ const Navbar: React.FC<NavbarProps> = ({
 
   return (
     <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 flex flex-col md:flex-row justify-between items-stretch gap-4 shadow-lg">
-      <div className="flex items-center space-x-4">
+      <div className="flex items-center space-x-6.5">
         {/* LOGO */}
         <div className="w-32 h-8 bg-white/20 rounded-lg">
           <img
@@ -66,7 +66,7 @@ const Navbar: React.FC<NavbarProps> = ({
         </div>
 
         {/* MENU DESPLEGABLE BASE DE DATOS */}
-        <div className="relative">
+        <div>
           <select
             value={dataBase}
             onChange={(e) => selectEmpresa(e.target.value)}
