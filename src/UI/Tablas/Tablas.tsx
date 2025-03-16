@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { VentasService } from "../../Services/VentasService";
 import { FormasService } from "../../Services/FormasService";
 import { FormasArticulo } from "../../Models/FormasArticulos";
