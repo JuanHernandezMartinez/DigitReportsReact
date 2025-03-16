@@ -1,12 +1,13 @@
+import { SaldoCliente } from "../Models/SaldoCliente";
 import api from "../utils/api";
 import toast from "react-hot-toast";
 
 
 export class ClientesService {
-   async obtenerClientesArticulosPorFechas(dataBase: string, fechaInicio: string, fechaFin: string) {
+   async obtenerClientesArticulosPorFechas(dataBase: string, fechaInicio: string, fechaFin: string): Promise<SaldoCliente[]> {
     const loadingToast = toast.loading("Cargando datos..."); 
     try {
-       const response = await api.get(`/Clientes/fechas/${dataBase}/${fechaInicio}/${fechaFin}`);
+       const response = await api.get(`/clientes/saldos-clientes/${dataBase}/${fechaInicio}/${fechaFin}`);
        toast.success("Datos cargados con éxito!");
        toast.dismiss(loadingToast);
        return response.data;

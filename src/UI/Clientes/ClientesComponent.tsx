@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { SaldoCliente } from "../../Models/SaldoCliente";
 import { Card, CardContent } from "../UIComponents/card";
 
-function ClientesComponent({ selectedDates, clients }: { selectedDates: any[], clients: any[]}) {
+function ClientesComponent({ selectedDates, clients }: { selectedDates: any[], clients: SaldoCliente[]}) {
 
     return (
 <div>
@@ -29,11 +29,11 @@ function ClientesComponent({ selectedDates, clients }: { selectedDates: any[], c
         <tbody className="divide-y divide-gray-200">
           {clients.map((client, index) => (
             <tr key={index} className="hover:bg-green-50 even:bg-gray-50 transition-colors">
-              <td className="px-4 py-3 text-gray-900 font-medium">{client.name}</td>
-              <td className="px-4 py-3 text-right text-green-700">${client.payment.toFixed(2)}</td>
-              <td className="px-4 py-3 text-right text-red-700">${client.charge.toFixed(2)}</td>
+              <td className="px-4 py-3 text-gray-900 font-medium">{client?.nombre}</td>
+              <td className="px-4 py-3 text-right text-green-700">${client?.pago.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+              <td className="px-4 py-3 text-right text-red-700">${client?.cargo.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
               <td className="px-4 py-3 text-right font-semibold text-gray-900">
-                ${client.balance.toFixed(2)}
+                ${client.saldo.toFixed(2)}
               </td>
             </tr>
           ))}
@@ -42,13 +42,13 @@ function ClientesComponent({ selectedDates, clients }: { selectedDates: any[], c
           <tr className="bg-green-50 font-bold border-t border-green-200">
             <td className="px-4 py-3 text-green-900">Totales</td>
             <td className="px-4 py-3 text-right text-green-700">
-              ${clients.reduce((acc, client) => acc + client.payment, 0).toFixed(2)}
+              ${clients.reduce((acc, client) => acc + client?.pago, 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </td>
             <td className="px-4 py-3 text-right text-red-700">
-              ${clients.reduce((acc, client) => acc + client.charge, 0).toFixed(2)}
+              ${clients.reduce((acc, client) => acc + client?.cargo, 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </td>
             <td className="px-4 py-3 text-right text-gray-900">
-              ${clients.reduce((acc, client) => acc + client.balance, 0).toFixed(2)}
+              ${clients.reduce((acc, client) => acc + client?.saldo, 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </td>
           </tr>
         </tbody>

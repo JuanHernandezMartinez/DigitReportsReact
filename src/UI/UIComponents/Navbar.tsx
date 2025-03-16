@@ -73,13 +73,6 @@ const Navbar: React.FC<NavbarProps> = ({ selectedDates, setSelectedDates, buscar
         </Button>
       </div>
 
-      {/* FECHA ACTUAL */}
-      <div className="flex-1 flex items-center justify-center bg-white/10 px-2 py-2 rounded-lg backdrop-blur-sm">
-        <div className="text-white text-sm md:text-base lg:text-lg whitespace-nowrap">
-          Fecha Actual: {currentTime}
-        </div>
-      </div>
-
       {/* BOTÓN VOLVER */}
       <Button onClick={() => navigate(-1)} className="bg-white/10 hover:bg-white/20 border border-white/30 text-white flex items-center justify-center space-x-2">
         <ArrowLeftIcon />

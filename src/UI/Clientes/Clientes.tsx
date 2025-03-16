@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { ClientesService } from "../../Services/ClientesService";
-import { ClientesArticulo } from "../../Models/ClientesArticulos";
 import Clientes from "../Clientes/ClientesComponent";
 import Navbar from "../UIComponents/Navbar";
 import DateObject from "react-date-object";
 import toast, { Toaster } from "react-hot-toast";
+import { SaldoCliente } from "../../Models/SaldoCliente";
 
 
 function ClientesUI() {
-  const [clients, setClients] = useState<ClientesArticulo[]>([]);
+  const [clients, setClients] = useState<SaldoCliente[]>([]);
   const [selectedDates, setSelectedDates] = useState<DateObject[]>([]);
   const [currentTime, setCurrentTime] = useState(new Date().toLocaleString());
 
@@ -20,8 +20,16 @@ function ClientesUI() {
     setSelectedDates(dates);
 
     if (dates.length !== 2) {
-      console.error("Selecciona un rango de fechas válido");
-      toast.error("Selecciona un rango de fechas válido.")
+      
+      toast('Selecciona la fecha final!',
+        {
+          style: {
+            borderRadius: '10px',
+            background: '#333',
+            color: '#fff',
+          },
+        }
+      );
       return;
     }
 
