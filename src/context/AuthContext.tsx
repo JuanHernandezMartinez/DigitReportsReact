@@ -18,8 +18,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   async function login(user: string, password: string) {
     try {
-      const { data } = await loginRequest(user, password);
-      localStorage.setItem("token", data);
+      const { access_token } = (await loginRequest(user, password)).data;
+      localStorage.setItem("token", access_token);
       setIsAuthenticated(true);
     } catch (error) {
       console.log("Catch login");
