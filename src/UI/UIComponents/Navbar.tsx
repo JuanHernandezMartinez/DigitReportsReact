@@ -3,8 +3,8 @@ import { Button } from "./button";
 import DatePicker, { DateObject } from "react-multi-date-picker";
 import logo from "../../assets/165 x 645.png";
 import { useNavigate } from "react-router-dom";
-import { EmpresaService } from "../../Services/EmpresaService";
 import { Empresa } from "../../Models/Empresa";
+import { consultarEmpresasService } from "../../Services/EmpresaService";
 
 interface NavbarProps {
   selectedDates: DateObject[];
@@ -19,7 +19,6 @@ const Navbar: React.FC<NavbarProps> = ({
   buscar,
   currentTime,
 }) => {
-  const empresaService = new EmpresaService();
   const navigate = useNavigate();
   const [dataBase, setDataBase] = useState<string>("GRANILLO");
   const [empresas, setEmpresas] = useState<Empresa[]>([]);
@@ -29,12 +28,10 @@ const Navbar: React.FC<NavbarProps> = ({
   }
 
   useEffect(() => {
-    async function consultarEmpresas() {
-      let response = await empresaService.consultarEmpresas();
-      console.log("Empresas encontradas: ", response);
-      setEmpresas(response);
+    async function buscar() {
+      await consultarEmpresasService()
     }
-    consultarEmpresas();
+    buscar();
   }, []);
 
   const ArrowLeftIcon = () => (
