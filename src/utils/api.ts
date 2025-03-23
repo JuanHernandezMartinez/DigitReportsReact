@@ -1,7 +1,5 @@
-import axios from "axios";
-
+import axios, { AxiosError, AxiosResponse } from "axios";
 const url = import.meta.env.VITE_URL_API;
-
 
 const api = axios.create({
   baseURL: url,
@@ -10,7 +8,7 @@ const api = axios.create({
   },
 });
 
-// Interceptor 
+// Interceptor
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");
@@ -20,6 +18,19 @@ api.interceptors.request.use(
     return config;
   },
   (error) => {
+    return Promise.reject(error);
+  }
+);
+
+api.interceptors.response.use(
+  (response: AxiosResponse) => {
+    return response;
+  },
+  (error: AxiosError) => {
+    if (error.response && error.response.status === 401) {
+      localStorage.removeItem("token");
+      location.href = "/";
+    }
     return Promise.reject(error);
   }
 );
