@@ -18,10 +18,16 @@ function BancosUI() {
     setSelectedDates(dates);
 
     if (dates.length !== 2) {
-      console.error("Selecciona un rango de fechas válido");
-      toast.error("Selecciona un rango de fechas válido.");
+      toast("Selecciona la fecha final!", {
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#fff",
+        },
+      });
       return;
     }
+    toast.dismiss();
 
     const startDate = dates[0].format("YYYY-MM-DD");
     const endDate = dates[1].format("YYYY-MM-DD");

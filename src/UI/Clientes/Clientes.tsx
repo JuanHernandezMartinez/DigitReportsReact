@@ -6,7 +6,6 @@ import DateObject from "react-date-object";
 import toast, { Toaster } from "react-hot-toast";
 import { SaldoCliente } from "../../Models/SaldoCliente";
 
-
 function ClientesUI() {
   const [clients, setClients] = useState<SaldoCliente[]>([]);
   const [selectedDates, setSelectedDates] = useState<DateObject[]>([]);
@@ -28,6 +27,7 @@ function ClientesUI() {
       });
       return;
     }
+    toast.dismiss();
 
     const startDate = dates[0].format("YYYY-MM-DD");
     const endDate = dates[1].format("YYYY-MM-DD");
@@ -47,10 +47,7 @@ function ClientesUI() {
   };
 
   return (
-    <div
-      style={{ minHeight: "100vh" }}
-      className="fondo p-4 space-y-4"
-    >
+    <div style={{ minHeight: "100vh" }} className="fondo p-4 space-y-4">
       <Navbar
         selectedDates={selectedDates}
         setSelectedDates={setSelectedDates}
