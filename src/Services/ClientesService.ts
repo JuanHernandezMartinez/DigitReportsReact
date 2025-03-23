@@ -8,7 +8,6 @@ export class ClientesService {
     const loadingToast = toast.loading("Cargando datos..."); 
     try {
        const response = await api.get(`/clientes/saldos-clientes/${dataBase}/${fechaInicio}/${fechaFin}`);
-       toast.success("Datos cargados con éxito!");
        toast.dismiss(loadingToast);
        return response.data;
      } catch (error) {

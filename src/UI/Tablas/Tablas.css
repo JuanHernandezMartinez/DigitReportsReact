@@ -7,3 +7,15 @@ table {
 .card-header {
   @apply text-lg font-semibold mb-2;
 }
+
+.fondo{
+  min-height: 100vh;
+  background: linear-gradient(to right, #1D4ED8, #065F46);
+}
+
+@media print{
+  .fondo{
+    background: none !important;
+    background: whitesmoke;
+  }
+}

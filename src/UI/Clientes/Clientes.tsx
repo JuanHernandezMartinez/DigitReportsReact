@@ -54,7 +54,7 @@ function ClientesUI() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-700 to-emerald-800 p-4 space-y-4">
+    <div style={{minHeight:"100vh"}} className="bg-gradient-to-br from-blue-700 to-emerald-800 p-4 space-y-4">
             <Navbar selectedDates={selectedDates} setSelectedDates={setSelectedDates} buscar={buscar} currentTime={currentTime} />
       {/* Secciones de Ventas, Clientes y Bancos */}
       <Clientes selectedDates={selectedDates} clients={clients} />

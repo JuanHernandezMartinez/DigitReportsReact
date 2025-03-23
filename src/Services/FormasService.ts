@@ -6,7 +6,6 @@ export class FormasService {
     const loadingToast = toast.loading("Cargando datos...");
      try {
        const response = await api.get(`/formas-pago/fechas/${dataBase}/${fechaInicio}/${fechaFin}`);
-       toast.success("Datos cargados con éxito!");
        toast.dismiss(loadingToast);
        return response.data;
      } catch (error) {

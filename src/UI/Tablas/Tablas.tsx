@@ -1,3 +1,4 @@
+import './Tablas.css'
 import { useState, useEffect } from "react";
 import { VentasService } from "../../Services/VentasService";
 import { FormasService } from "../../Services/FormasService";
@@ -43,6 +44,7 @@ function Tablas() {
       toast.error("Selecciona un rango de fechas válido.");
       return;
     }
+    toast.dismiss()
 
     const startDate = dates[0].format("YYYY-MM-DD");
     const endDate = dates[1].format("YYYY-MM-DD");
@@ -90,7 +92,7 @@ function Tablas() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-700 to-emerald-800 p-4 space-y-4">
+    <div className="p-4 space-y-4 fondo">
       <Navbar
         selectedDates={selectedDates}
         setSelectedDates={setSelectedDates}

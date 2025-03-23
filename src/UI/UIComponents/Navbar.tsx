@@ -1,3 +1,4 @@
+import './Navbar.css'
 import React, { useEffect, useState } from "react";
 import { Button } from "./button";
 import DatePicker, { DateObject } from "react-multi-date-picker";
@@ -25,6 +26,10 @@ const Navbar: React.FC<NavbarProps> = ({
 
   async function selectEmpresa(empresa: string) {
     setDataBase(empresa);
+  }
+
+  function print(): void {
+    window.print();
   }
 
   useEffect(() => {
@@ -67,7 +72,7 @@ const Navbar: React.FC<NavbarProps> = ({
           <select
             value={dataBase}
             onChange={(e) => selectEmpresa(e.target.value)}
-            className="px-4 py-2 rounded-lg bg-white/20 border border-white/30 text-white focus:outline-none focus:ring-2 focus:ring-white/50"
+            className="px-4 py-2 rounded-lg bg-white/20 border border-white/30 text-white focus:outline-none focus:ring-2 focus:ring-white/50 print-text"
           >
             {empresas.map((e) => (
               <option
@@ -107,20 +112,23 @@ const Navbar: React.FC<NavbarProps> = ({
           showOtherDays
           portal
           placeholder="📆 Seleccione Una Fecha "
-          inputClass="text-lg h-10 px-4 bg-white/20 text-white placeholder-white border border-white/30 rounded-lg"
+          inputClass="text-lg h-10 px-4 bg-white/20 text-white placeholder-white border border-white/30 rounded-lg print-text"
           containerClassName="w-full sm:w-60"
         />
 
         {/* BOTÓN RECARGAR */}
         <Button
           onClick={() => buscar(selectedDates, dataBase)}
-          className="bg-white/10 border text-white"
+          className="bg-white/10 border text-white not-print-item "
         >
           Recargar
         </Button>
 
         {/* BOTÓN GENERAR REPORTE */}
-        <Button className="w-full sm:w-auto bg-white/10 hover:bg-white/20 border border-white/30 text-white">
+        <Button
+          className="w-full sm:w-auto bg-white/10 hover:bg-white/20 border border-white/30 text-white not-print-item"
+          onClick={print}
+        >
           Generar Reporte
         </Button>
       </div>
@@ -128,7 +136,7 @@ const Navbar: React.FC<NavbarProps> = ({
       {/* BOTÓN VOLVER */}
       <Button
         onClick={() => navigate(-1)}
-        className="bg-white/10 hover:bg-white/20 border border-white/30 text-white flex items-center justify-center space-x-2"
+        className="bg-white/10 hover:bg-white/20 border border-white/30 text-white flex items-center justify-center space-x-2 not-print-item"
       >
         <ArrowLeftIcon />
         <span>Volver</span>
