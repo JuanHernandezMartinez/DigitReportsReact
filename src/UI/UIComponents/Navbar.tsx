@@ -1,5 +1,5 @@
-import './Navbar.css'
-import React, { useEffect, useState } from "react";
+import "./Navbar.css";
+import { useEffect, useState } from "react";
 import { Button } from "./button";
 import DatePicker, { DateObject } from "react-multi-date-picker";
 import logo from "../../assets/165 x 645.png";
@@ -11,15 +11,9 @@ interface NavbarProps {
   selectedDates: DateObject[];
   setSelectedDates: (dates: DateObject[]) => void;
   buscar: (dates: DateObject[], dataBase: string) => void;
-  currentTime: string;
 }
 
-const Navbar: React.FC<NavbarProps> = ({
-  selectedDates,
-  setSelectedDates,
-  buscar,
-  currentTime,
-}) => {
+const Navbar: React.FC<NavbarProps> = ({ selectedDates, buscar }) => {
   const navigate = useNavigate();
   const [dataBase, setDataBase] = useState<string>("GRANILLO");
   const [empresas, setEmpresas] = useState<Empresa[]>([]);

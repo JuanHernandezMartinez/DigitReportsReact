@@ -1,5 +1,5 @@
-import './Tablas.css'
-import { useState, useEffect } from "react";
+import "./Tablas.css";
+import { useState } from "react";
 import { VentasService } from "../../Services/VentasService";
 import { FormasService } from "../../Services/FormasService";
 import { FormasArticulo } from "../../Models/FormasArticulos";
@@ -25,7 +25,6 @@ function Tablas() {
   const [banks, setBanks] = useState<BancosArticulo[]>([]);
 
   const [selectedDates, setSelectedDates] = useState<DateObject[]>([]);
-  const [currentTime, setCurrentTime] = useState(new Date().toLocaleString());
 
   const ventasService = new VentasService();
   const formasService = new FormasService();
@@ -44,7 +43,7 @@ function Tablas() {
       toast.error("Selecciona un rango de fechas válido.");
       return;
     }
-    toast.dismiss()
+    toast.dismiss();
 
     const startDate = dates[0].format("YYYY-MM-DD");
     const endDate = dates[1].format("YYYY-MM-DD");
@@ -84,25 +83,17 @@ function Tablas() {
     }
   };
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTime(new Date().toLocaleString());
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
-
   return (
     <div className="p-4 space-y-4 fondo">
       <Navbar
         selectedDates={selectedDates}
         setSelectedDates={setSelectedDates}
         buscar={buscar}
-        currentTime={currentTime}
       />
       {/* Secciones de Ventas, Clientes y Bancos */}
-      <Ventas selectedDates={selectedDates} sales={sales} />
-      <Formas selectedDates={selectedDates} formas={formas} />
-      <Clientes selectedDates={selectedDates} clients={clients} />
+      <Ventas sales={sales} />
+      <Formas formas={formas} />
+      <Clientes clients={clients} />
       <Bancos banks={banks} />
 
       <Toaster />

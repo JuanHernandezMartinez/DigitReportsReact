@@ -8,7 +8,7 @@ const api = axios.create({
   },
 });
 
-// Interceptor
+// Interceptar la peticion con el access_token
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");
@@ -22,6 +22,8 @@ api.interceptors.request.use(
   }
 );
 
+
+//Interceptar la respuesta cuando es 401, para redirigir al login
 api.interceptors.response.use(
   (response: AxiosResponse) => {
     return response;

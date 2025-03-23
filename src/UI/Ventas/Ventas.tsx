@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { VentasService } from "../../Services/VentasService";
 import { FormasService } from "../../Services/FormasService";
 import { FormasArticulo } from "../../Models/FormasArticulos";
@@ -56,10 +56,10 @@ function VentasUI() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-700 to-emerald-800 p-4 space-y-4">
-            <Navbar selectedDates={selectedDates} setSelectedDates={setSelectedDates} buscar={buscar} currentTime={currentTime} />
+            <Navbar selectedDates={selectedDates} setSelectedDates={setSelectedDates} buscar={buscar} />
       {/* Secciones de Ventas*/}
-      <Ventas selectedDates={selectedDates} sales={sales} />
-      <Formas selectedDates={selectedDates} formas={formas} />
+      <Ventas sales={sales} />
+      <Formas formas={formas} />
       <Toaster />
 
     </div>

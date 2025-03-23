@@ -1,7 +1,6 @@
-import React from "react";
 import { Card, CardContent } from "../UIComponents/card";
 
-function Ventas({ selectedDates, sales }: { selectedDates: any[], sales: any[] }) {
+function Ventas({ sales }: { sales: any[] }) {
   return (
     <div>
       <Card className="bg-white backdrop-blur-sm border border-gray-200 rounded-xl shadow-lg">

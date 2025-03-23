@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../../assets/165 x 645.png";
 import { useAuth } from "../../context/AuthContext";
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 
 
 const Home: React.FC = () => {

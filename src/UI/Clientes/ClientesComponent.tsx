@@ -1,7 +1,7 @@
 import { SaldoCliente } from "../../Models/SaldoCliente";
 import { Card, CardContent } from "../UIComponents/card";
 
-function ClientesComponent({ selectedDates, clients }: { selectedDates: any[], clients: SaldoCliente[]}) {
+function ClientesComponent({ clients }: { clients: SaldoCliente[]}) {
 
     return (
 <div>

@@ -1,7 +1,6 @@
-import React from "react";
 import { Card, CardContent } from "../UIComponents/card";
 
-function FormasComponent({ selectedDates, formas }: { selectedDates: any[], formas: any[]}) {
+function FormasComponent({ formas }: { formas: any[]}) {
     return (
             <Card className="bg-white backdrop-blur-sm border border-gray-200 rounded-xl shadow-lg">
                 <CardContent>

@@ -7,7 +7,7 @@ import Bancos from './UI/Bancos/Bancos'
 import Tablas from './UI/Tablas/Tablas'
 import Ventas from './UI/Ventas/Ventas'
 import ProtectedRoute from "./components/ProtectedRoute";
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 
 
 function App() {
