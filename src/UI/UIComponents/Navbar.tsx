@@ -29,7 +29,7 @@ const Navbar: React.FC<NavbarProps> = ({
 
   useEffect(() => {
     async function buscar() {
-      await consultarEmpresasService()
+      setEmpresas(await consultarEmpresasService());
     }
     buscar();
   }, []);
