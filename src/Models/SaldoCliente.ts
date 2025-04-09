@@ -7,5 +7,7 @@ export class SaldoCliente {
 
     public cargo: number;
 
-    public saldo: number;
+    public saldoInicial: number;
+    public saldoFinal: number;
+
 }

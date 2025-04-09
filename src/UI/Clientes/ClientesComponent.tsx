@@ -16,13 +16,16 @@ function ClientesComponent({ clients }: { clients: SaldoCliente[]}) {
               Cliente
             </th>
             <th className="px-4 py-3 text-right text-green-900 font-semibold uppercase border-b border-green-200">
+              Saldo inicial
+            </th>
+            <th className="px-4 py-3 text-right text-green-900 font-semibold uppercase border-b border-green-200">
               Pago
             </th>
             <th className="px-4 py-3 text-right text-green-900 font-semibold uppercase border-b border-green-200">
               Cargo
             </th>
             <th className="px-4 py-3 text-right text-green-900 font-semibold uppercase border-b border-green-200">
-              Saldo
+              Saldo final
             </th>
           </tr>
         </thead>
@@ -30,27 +33,18 @@ function ClientesComponent({ clients }: { clients: SaldoCliente[]}) {
           {clients.map((client, index) => (
             <tr key={index} className="hover:bg-green-50 even:bg-gray-50 transition-colors">
               <td className="px-4 py-3 text-gray-900 font-medium">{client?.nombre}</td>
+              <td className="px-4 py-3 text-right font-semibold text-gray-900">
+                ${client.saldoInicial.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              </td>
               <td className="px-4 py-3 text-right text-green-700">${client?.pago.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
               <td className="px-4 py-3 text-right text-red-700">${client?.cargo.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+              
               <td className="px-4 py-3 text-right font-semibold text-gray-900">
-                ${client.saldo.toFixed(2)}
+                ${client.saldoFinal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </td>
             </tr>
           ))}
           
-          {/* Fila de Totales */}
-          <tr className="bg-green-50 font-bold border-t border-green-200">
-            <td className="px-4 py-3 text-green-900">Totales</td>
-            <td className="px-4 py-3 text-right text-green-700">
-              ${clients.reduce((acc, client) => acc + client?.pago, 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-            </td>
-            <td className="px-4 py-3 text-right text-red-700">
-              ${clients.reduce((acc, client) => acc + client?.cargo, 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-            </td>
-            <td className="px-4 py-3 text-right text-gray-900">
-              ${clients.reduce((acc, client) => acc + client?.saldo, 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-            </td>
-          </tr>
         </tbody>
       </table>
     </div>
